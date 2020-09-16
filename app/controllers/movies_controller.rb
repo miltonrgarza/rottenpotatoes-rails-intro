@@ -22,34 +22,17 @@ class MoviesController < ApplicationController
     end
     
     if params[:ratings]
-      
       if params[:ratings].kind_of? Hash
         @ratings = params[:ratings].keys
       else
         @ratings = params[:ratings]
       end
-      
     elsif session[:ratings]
       @ratings = session[:ratings]
     else
       @ratings = @all_ratings
     end
         
-    
-    # if params[:ratings].kind_of? Hash
-    #   params[:ratings] = params[:ratings].keys
-    # else
-    #   params[:ratings] = params[:ratings]
-    # end
-    
-    # if !params[:ratings].nil?
-    #   @filter = params[:ratings]
-    #   @ratings = params[:ratings]
-    # else !session[:ratings].nil?
-    #   @filter = session[:ratings]
-    #   @ratings = session[:ratings]
-    # end
-    
     @movies = Movie.where(rating: @ratings).order(@sorting)
     if (params[:sort].nil? && !session[:sort].nil?) || (params[:ratings].nil? && !session[:ratings].nil?)
       flash.keep
